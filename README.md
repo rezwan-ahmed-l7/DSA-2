@@ -75,7 +75,7 @@ The primary goal of this repository is to strengthen algorithmic thinking, impro
 | Technology | Purpose                 |
 | ---------- | ----------------------- |
 | Python     | Programming Language    |
-| Python 3   | Execution Environment   |
+| Python     | Execution Environment   |
 | VS Code    | Development Environment |
 
 ---
