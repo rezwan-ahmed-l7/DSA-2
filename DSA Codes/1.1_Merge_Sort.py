@@ -1,5 +1,3 @@
-arr = [2, 1, 4, 3, 8, 5, 6, 9, 7]
-
 def merge_sort(arr, start, end):
 
     if start < end:
@@ -41,6 +39,8 @@ def merge(arr, start, mid, end):
         arr[k] = right[j]
         j += 1
         k += 1
+        
+arr = [2, 1, 4, 3, 8, 5, 6, 9, 7]
 
 merge_sort(arr, 0, len(arr) - 1)
 
