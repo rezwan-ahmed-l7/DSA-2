@@ -1,68 +1,51 @@
-def huffman_encode(text):
-    if not text:
-        return "", {}
-
-    # Frequency count
-    freq = {}
-    for c in text:
-        if c in freq:
-            freq[c] += 1
-        else:
-            freq[c] = 1
-
-    # nodes = [freq, unique_id, chars]
-    nodes = []
-    uid = 0
-    for c, f in freq.items():
-        nodes.append([f, uid, c])
-        uid += 1
-
-    codes = {c: "" for c in freq}
-
-    while len(nodes) > 1:
-        # Manual sort kore smallest duita ber kori
-        nodes.sort(key=lambda x: x[0])
-
-        left = nodes.pop(0)
-        right = nodes.pop(0)
-
-        # Code update
-        for char in left[2]:
-            codes[char] = "0" + codes[char]
-        for char in right[2]:
-            codes[char] = "1" + codes[char]
-
-        # Merge
-        merged = [left[0] + right[0], uid, left[2] + right[2]]
-        uid += 1
-        nodes.append(merged)
-
-    # Encode
-    encoded = ""
-    for c in text:
-        encoded += codes[c]
-
-    return encoded, codes
+import heapq
 
 
-def huffman_decode(encoded, codes):
-    reverse = {code: char for char, code in codes.items()}
-    decoded = ""
-    current = ""
+class Node:
+    def __init__(self, char, freq):
+        self.char = char
+        self.freq = freq
+        self.left = None
+        self.right = None
 
-    for bit in encoded:
-        current += bit
-        if current in reverse:
-            decoded += reverse[current]
-            current = ""
-    return decoded
+    def __lt__(self, other):
+        return self.freq < other.freq
 
 
-text = "aabbc"
-encoded, codes = huffman_encode(text)
-decoded = huffman_decode(encoded, codes)
+def huffman_codes(characters, frequencies):
 
-print("Original :", text)
-print("Codes    :", codes)
-print("Encoded  :", encoded)
-print("Decoded  :", decoded)
+    heap = []
+    for i in range(len(characters)):
+        node = Node(characters[i], frequencies[i])
+        heapq.heappush(heap, node)
+
+    while len(heap) > 1:
+        left = heapq.heappop(heap)
+        right = heapq.heappop(heap)
+
+        merged = Node(None, left.freq + right.freq)
+        merged.left = left
+        merged.right = right
+        heapq.heappush(heap, merged)
+
+    root = heap[0]
+    codes = {}
+
+    def generate(node, current=""):
+        if node is None:
+            return
+        if node.char is not None:  # leaf
+            codes[node.char] = current if current else "0"
+            return
+        generate(node.left, current + "0")
+        generate(node.right, current + "1")
+
+    generate(root)
+    return codes
+
+
+s = "abcdef"
+freq = [5, 9, 12, 15, 27, 45]
+
+result = huffman_codes(s, freq)
+print(result)
