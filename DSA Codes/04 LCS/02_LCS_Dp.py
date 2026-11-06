@@ -15,5 +15,9 @@ def LCS(S1, S2, i, j,dp):
 
 S1 = "ABCD"
 S2 = "ACBD"
-dp = [[-1] * 100 for _ in range(100)]
+
+row = len(S1) + 1
+col = len(S2) + 1
+
+dp = [[-1 for _ in range(col)] for _ in range(row)]
 print("LCS length:", LCS(S1, S2, len(S1), len(S2), dp))

@@ -25,7 +25,6 @@ def min_coin_change(coins, amount):
 
     return solution[n][amount]
 
-
 coins = [1, 2, 5]
 amount = 11
 print(min_coin_change(coins, amount))
