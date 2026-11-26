@@ -34,3 +34,4 @@ adj = [
 
 src = 0
 dist = dijkstra(adj, src)
+print(dist)
